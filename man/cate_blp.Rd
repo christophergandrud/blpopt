@@ -11,7 +11,7 @@ cate_blp(cf, A)
 \item{cf}{a \emph{causal_forest} object output from the \code{causal_forest} function
 from the \strong{grf} package.}
 
-\item{A}{Matrix of features with the same number of rows as \code{cf}}
+\item{A}{Matrix of features with the same number of rows as \code{cf.predictions}}
 }
 \description{
 Estimates the best linear projection of the CATE with respect to a feature

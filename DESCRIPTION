@@ -12,7 +12,7 @@ Authors@R: c(
     )
 Description: Estimates the best linear projection of the CATE with respect to a 
     feature matrix using cross-fitted DR/AIPW-scores.
-BugReports: <to-add>
+BugReports: https://github.com/christophergandrud/blpopt/issues
 License: MIT
 Imports:
     lmtest,
