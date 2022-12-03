@@ -6,6 +6,7 @@
 #' from the **grf** package.
 #' @param A matrix of features with the same number of rows as
 #' `cf.predictions`
+#'
 #' @importFrom stats lm
 #' @importFrom lmtest coeftest
 #' @importFrom sandwich vcovHC
