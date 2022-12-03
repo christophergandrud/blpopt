@@ -40,15 +40,18 @@ Y <- pmax(X[, 2] + X[, 3], 0) + rowMeans(X[, 4:6]) / 2 + W * TAU + rnorm(n)
 Best Linear Predictor (CATE-BLP)
 
 ```{r, estimate}
-cf <- causal_forest(X,Y,W)
-blp <- cate_blp(cf,X[,3])
+cf <- causal_forest(X, Y, W)
+blp <- cate_blp(cf, X[,3])
 ```
 
-## Extract predictions (TO-UPDATE with predict method)
+```{r, summary}
+summary(blp)
+```
+
+## Extract predictions
 
 ```{r, predictions}
-preds <- cbind(1, X[,3]) %*% blp[,1] 
-plt_df <- data.frame(x=X[,3],y=preds)
+predicted <- predict(blp)
 ```
 
 
@@ -61,8 +64,8 @@ In the following plot:
 - Black points are the estimated best linear predictions of the CATE
 
 ```{r, visually-compare}
-ggplot(plt_df,aes(x=x,y=y)) +
-  xlim(c(min(plt_df$x), max(plt_df$x))) +
+ggplot(predicted, aes(x = A, y = predicted)) +
+  xlim(c(min(predicted$A), max(predicted$A))) +
   geom_function(fun = tau_ex,col="red")  + 
   geom_point(size = 1, alpha = 0.4) +
   theme_minimal()

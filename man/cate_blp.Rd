@@ -12,7 +12,7 @@ cate_blp(cf, A)
 \item{cf}{\emph{causal_forest} object output from the \code{causal_forest} function
 from the \strong{grf} package.}
 
-\item{A}{numeric vector of features with the same number of rows as
+\item{A}{matrix of features with the same number of rows as
 \code{cf.predictions}}
 }
 \description{

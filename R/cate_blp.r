@@ -4,7 +4,7 @@
 #'
 #' @param cf *causal_forest* object output from the `causal_forest` function
 #' from the **grf** package.
-#' @param A numeric vector of features with the same number of rows as
+#' @param A matrix of features with the same number of rows as
 #' `cf.predictions`
 #' @importFrom stats lm
 #' @importFrom lmtest coeftest
@@ -13,7 +13,6 @@
 
 cate_blp <- function(cf, A) {
     stopifnot("cf must be causal_forest" = inherits(cf, "causal_forest"))
-    stopifnot("A must be a numeric vector" = inherits(A, "numeric"))
 
   # These are the observed outcomes/treatments stored in the GRF object
   Y <- cf$Y.orig
@@ -57,10 +56,17 @@ cate_blp <- function(cf, A) {
   # HC3-SE t-tests
   res <- coeftest(blp, vcov. = vcovHC(blp, type = "HC3"))
 
-  print("CATE-BLP Coefficient Estimates")
-  print(res[, 1])
-  print("HC3 Standard Errors")
-  print(res[, 2])
+  # Predictions
+  preds <- cbind(1, A) %*% res[, 1]
+  plt.df <- data.frame(A, predicted = preds)
 
-  return(res)
+  out <- list(res = res, predictions = plt.df)
+  class(out) <- "cateblp"
+
+  # print("CATE-BLP Coefficient Estimates")
+  # print(res[, 1])
+  # print("HC3 Standard Errors")
+  # print(res[, 2])
+
+  out
 }

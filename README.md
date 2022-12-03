@@ -2,6 +2,7 @@
 # blpopt
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/christophergandrud/blpopt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/christophergandrud/blpopt/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Estimate the best linear projection of the Conditional Average Treatment Effect (CATE) for approximately optimal targeting
