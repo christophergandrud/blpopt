@@ -28,11 +28,13 @@ p <- 20
 X <- matrix(rnorm(n * p), n, p)
 
 # CATE varies along one dim only.
-tau_ex <- function(x){1 / (1 + exp(-x))} 
-TAU <- tau_ex(X[,3])
+tau_ex <- function(x) {
+  1 / (1 + exp(-x))
+}
+TAU <- tau_ex(X[, 3])
 
 # Propensity  and Outcome vary along 2 and 5 dimensions only.
-W <- rbinom(n, 1, 1 / (1 + exp(-X[, 1] - X[, 2]))) 
+W <- rbinom(n, 1, 1 / (1 + exp(-X[, 1] - X[, 2])))
 Y <- pmax(X[, 2] + X[, 3], 0) + rowMeans(X[, 4:6]) / 2 + W * TAU + rnorm(n)
 ```
 
@@ -41,7 +43,7 @@ Best Linear Predictor (CATE-BLP)
 
 ```{r, estimate}
 cf <- causal_forest(X, Y, W)
-blp <- cate_blp(cf, X[,3])
+blp <- cate_blp(cf, X[, 3])
 ```
 
 ```{r, summary}
@@ -66,7 +68,7 @@ In the following plot:
 ```{r, visually-compare}
 ggplot(predicted, aes(x = A, y = predicted)) +
   xlim(c(min(predicted$A), max(predicted$A))) +
-  geom_function(fun = tau_ex,col="red")  + 
+  geom_function(fun = tau_ex, col = "red") +
   geom_point(size = 1, alpha = 0.4) +
   theme_minimal()
 ```

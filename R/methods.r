@@ -4,12 +4,12 @@
 #' @param ... other
 #' @export
 predict <- function(obj, ...) {
-    UseMethod("predict", obj)
+  UseMethod("predict", obj)
 }
 
 #' @export
 predict.cateblp <- function(obj, ...) {
-    obj$predictions
+  obj$predictions
 }
 
 #' Summary method for cateblp objects
@@ -18,10 +18,10 @@ predict.cateblp <- function(obj, ...) {
 #' @param ... other
 #' @export
 summary <- function(obj, ...) {
-    UseMethod("summary", obj)
+  UseMethod("summary", obj)
 }
 
 #' @export
 summary.cateblp <- function(obj, ...) {
-    obj$res
+  obj$res
 }

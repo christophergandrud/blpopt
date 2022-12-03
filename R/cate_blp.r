@@ -12,7 +12,7 @@
 #' @export cate_blp
 
 cate_blp <- function(cf, A) {
-    stopifnot("cf must be causal_forest" = inherits(cf, "causal_forest"))
+  stopifnot("cf must be causal_forest" = inherits(cf, "causal_forest"))
 
   # These are the observed outcomes/treatments stored in the GRF object
   Y <- cf$Y.orig
@@ -28,8 +28,10 @@ cate_blp <- function(cf, A) {
   # and the localized predictions of the causal forest E[Y_1 - Y_0 | X = x]
   tau.hat <- cf$predictions
 
-  stopifnot("A must have the same number of rows as cf.predictions" =
-                length(A) == length(tau.hat))
+  stopifnot(
+    "A must have the same number of rows as cf.predictions" =
+      length(A) == length(tau.hat)
+  )
 
   # Using the relationships
   # E[Y | X = x] = mu_0(X) + e(X) * tau(X) and
