@@ -1,0 +1,69 @@
+---
+title: "Minimal best linear predictor example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Minimal best linear predictor example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(blpopt)
+library(grf)
+library(ggplot2)
+```
+
+## Create simulated data
+
+```{r, data-generation}
+n <- 2000
+p <- 20
+X <- matrix(rnorm(n * p), n, p)
+
+# CATE varies along one dim only.
+tau_ex <- function(x){1 / (1 + exp(-x))} 
+TAU <- tau_ex(X[,3])
+
+# Propensity  and Outcome vary along 2 and 5 dimensions only.
+W <- rbinom(n, 1, 1 / (1 + exp(-X[, 1] - X[, 2]))) 
+Y <- pmax(X[, 2] + X[, 3], 0) + rowMeans(X[, 4:6]) / 2 + W * TAU + rnorm(n)
+```
+
+## Estimate causal forest and fit Conditional Average Treatment Effect
+Best Linear Predictor (CATE-BLP)
+
+```{r, estimate}
+cf <- causal_forest(X,Y,W)
+blp <- cate_blp(cf,X[,3])
+```
+
+## Extract predictions (TO-UPDATE with predict method)
+
+```{r, predictions}
+preds <- cbind(1, X[,3]) %*% blp[,1] 
+plt_df <- data.frame(x=X[,3],y=preds)
+```
+
+
+## Visualize approximations and compare to true CATE
+
+In the following plot:
+
+- The red line shows the true conditional average treatment effect ($\tau$).
+
+- Black points are the estimated best linear predictions of the CATE
+
+```{r, visually-compare}
+ggplot(plt_df,aes(x=x,y=y)) +
+  xlim(c(min(plt_df$x), max(plt_df$x))) +
+  geom_function(fun = tau_ex,col="red")  + 
+  geom_point(size = 1, alpha = 0.4) +
+  theme_minimal()
+```

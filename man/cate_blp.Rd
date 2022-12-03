@@ -2,18 +2,21 @@
 % Please edit documentation in R/cate_blp.r
 \name{cate_blp}
 \alias{cate_blp}
-\title{Estimates the best linear projection of the CATE with respect to a feature
-matrix A using cross-fitted DR/AIPW-scores.}
+\title{Estimates the best linear projection of the conditional average treatment
+effect (CATE-BLP) with respect to a feature
+vector A using cross-fitted DR/AIPW-scores.}
 \usage{
 cate_blp(cf, A)
 }
 \arguments{
-\item{cf}{a \emph{causal_forest} object output from the \code{causal_forest} function
+\item{cf}{\emph{causal_forest} object output from the \code{causal_forest} function
 from the \strong{grf} package.}
 
-\item{A}{Matrix of features with the same number of rows as \code{cf.predictions}}
+\item{A}{numeric vector of features with the same number of rows as
+\code{cf.predictions}}
 }
 \description{
-Estimates the best linear projection of the CATE with respect to a feature
-matrix A using cross-fitted DR/AIPW-scores.
+Estimates the best linear projection of the conditional average treatment
+effect (CATE-BLP) with respect to a feature
+vector A using cross-fitted DR/AIPW-scores.
 }

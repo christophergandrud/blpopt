@@ -1,9 +1,11 @@
-#' Estimates the best linear projection of the CATE with respect to a feature
-#' matrix A using cross-fitted DR/AIPW-scores.
+#' Estimates the best linear projection of the conditional average treatment
+#' effect (CATE-BLP) with respect to a feature
+#' vector A using cross-fitted DR/AIPW-scores.
 #'
 #' @param cf *causal_forest* object output from the `causal_forest` function
 #' from the **grf** package.
-#' @param A Matrix of features with the same number of rows as `cf.predictions`
+#' @param A numeric vector of features with the same number of rows as
+#' `cf.predictions`
 #' @importFrom stats lm
 #' @importFrom lmtest coeftest
 #' @importFrom sandwich vcovHC
@@ -11,7 +13,7 @@
 
 cate_blp <- function(cf, A) {
     stopifnot("cf must be causal_forest" = inherits(cf, "causal_forest"))
-    stopifnot("A must be a matrix" = inherits(A, "matrix"))
+    stopifnot("A must be a numeric vector" = inherits(A, "numeric"))
 
   # These are the observed outcomes/treatments stored in the GRF object
   Y <- cf$Y.orig
