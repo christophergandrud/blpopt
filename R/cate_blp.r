@@ -13,25 +13,11 @@
 #' @export cate_blp
 
 cate_blp <- function(cf, A) {
-  stopifnot("cf must be causal_forest" = inherits(cf, "causal_forest"))
-
-  # These are the observed outcomes/treatments stored in the GRF object
-  Y <- cf$Y.orig
-  W <- cf$W.orig
-
-  # Step 1: Compute Scores Gamma_i
-  # Note, that we currently rely on the GRF implementation for cross-fitted
-  # nuisance function estimates with regression forests.
-
-  # These are the regression forest estimates of E[Y | X = x] and E[W | X = x]..
-  Y.hat <- cf$Y.hat
-  W.hat <- cf$W.hat
-  # and the localized predictions of the causal forest E[Y_1 - Y_0 | X = x]
-  tau.hat <- cf$predictions
+  m <- extract_trained_model_elements(cf)
 
   stopifnot(
     "A must have the same number of rows as cf.predictions" =
-      length(A) == length(tau.hat)
+      length(A) == length(m$tau.hat)
   )
 
   # Using the relationships
@@ -40,19 +26,19 @@ cate_blp <- function(cf, A) {
   # estimates of mu_0(X) and mu_1(X) as
 
   # E[Y | X, W = 0]
-  mu.hat.0 <- Y.hat - W.hat * tau.hat
+  mu.hat.0 <- m$Y.hat - m$W.hat * m$tau.hat
   # E[Y | X, W = 1]
-  mu.hat.1 <- Y.hat + (1 - W.hat) * tau.hat
+  mu.hat.1 <- m$Y.hat + (1 - m$W.hat) * m$tau.hat
 
   # DML residual
-  w.res <- W - W.hat
+  w.res <- m$W - m$W.hat
 
   # DR correction weights
-  weights <- w.res / ((W.hat) * (1 - W.hat))
-  y.res <- Y - (Y.hat + tau.hat * w.res)
+  weights <- w.res / ((m$W.hat) * (1 - m$W.hat))
+  y.res <- m$Y - (m$Y.hat + m$tau.hat * w.res)
 
   # DR Scores
-  gamma.hat <- y.res * weights + tau.hat
+  gamma.hat <- y.res * weights + m$tau.hat
 
   # Projection of DR scores onto Feature Mat A.
   blp <- lm(gamma.hat ~ A)
@@ -66,10 +52,5 @@ cate_blp <- function(cf, A) {
   out <- list(res = res, predictions = plt.df)
   class(out) <- "cateblp"
 
-  # print("CATE-BLP Coefficient Estimates")
-  # print(res[, 1])
-  # print("HC3 Standard Errors")
-  # print(res[, 2])
-
-  out
+  return(out)
 }

@@ -2,7 +2,7 @@ Package: blpopt
 Type: Package
 Title: Estimate the best linear projection of the Conditional Average Treatment 
     Effect for approximately optimal targeting
-Version: 0.0.9000
+Version: 0.0.9001
 Authors@R: c(
     person("Majed", "Dodin", email = "majed.dodin@zalando.de",
         role = c("aut", "cre")),
