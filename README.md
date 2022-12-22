@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/christophergandrud/blpopt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/christophergandrud/blpopt/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 Estimate the best linear projection of the Conditional Average Treatment Effect (CATE) for approximately optimal targeting
@@ -13,8 +14,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("christophergandrud/blpopt",
-    auth_token = "ADD TOKEN")
+devtools::install_github("christophergandrud/blpopt")
 ```
 
 Note: the package is in a private GitHub repo. You need to 
@@ -58,3 +58,7 @@ ggplot(predicted, aes(x = A, y = predicted)) +
   geom_point(size = 1, alpha = 0.4) +
   theme_minimal()
 ```
+
+## See also
+
+- [`grf::best_linear_projection`](https://grf-labs.github.io/grf/reference/best_linear_projection.html) Note: the package in this repo is a starting point for planned extensions.
