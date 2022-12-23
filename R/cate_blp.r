@@ -17,7 +17,7 @@ cate_blp <- function(cf, A) {
 
   stopifnot(
     "A must have the same number of rows as cf.predictions" =
-      length(A) == length(m$tau.hat)
+      nrow(A) == length(m$tau.hat)
   )
 
   # Using the relationships
