@@ -13,6 +13,11 @@
 #' @export cate_blp
 
 cate_blp <- function(cf, A) {
+  if (!inherits(A, "matrix")) {
+      message("A must be a matrix ... attempting to coerce to matrix.")
+      A <- as.matrix(A)
+  }
+
   m <- extract_trained_model_elements(cf)
 
   stopifnot(
