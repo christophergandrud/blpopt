@@ -7,6 +7,11 @@
 #' @param A matrix of features with the same number of rows as
 #' `cf.predictions`
 #'
+#' 
+#' @references Semenova, V. and Chernozhukov, V., 2021. Debiased machine learning of 
+#' conditional average treatment effects and other causal functions. 
+#' The Econometrics Journal, 24(2), pp.264-289.
+#' 
 #' @importFrom stats lm
 #' @importFrom lmtest coeftest
 #' @importFrom sandwich vcovHC

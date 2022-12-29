@@ -61,4 +61,8 @@ ggplot(predicted, aes(x = A, y = predicted)) +
 
 ## See also
 
+- Semenova, V. and Chernozhukov, V., 2021. Debiased machine learning of 
+conditional average treatment effects and other causal functions. 
+The Econometrics Journal, 24(2), pp.264-289.
+
 - [`grf::best_linear_projection`](https://grf-labs.github.io/grf/reference/best_linear_projection.html) Note: the package in this repo is a starting point for planned extensions.
