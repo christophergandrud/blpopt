@@ -12,11 +12,16 @@ cate_blp(cf, A)
 \item{cf}{\emph{causal_forest} object output from the \code{causal_forest} function
 from the \strong{grf} package.}
 
-\item{A}{matrix of features with the same number of rows as
+\item{A}{numeric matrix of features with the same number of rows as
 \code{cf.predictions}}
 }
 \description{
 Estimates the best linear projection of the conditional average treatment
 effect (CATE-BLP) with respect to a feature
 vector A using cross-fitted DR/AIPW-scores.
+}
+\references{
+Semenova, V. and Chernozhukov, V., 2021. Debiased machine learning of
+conditional average treatment effects and other causal functions.
+The Econometrics Journal, 24(2), pp.264-289.
 }

@@ -4,22 +4,22 @@
 #'
 #' @param cf *causal_forest* object output from the `causal_forest` function
 #' from the **grf** package.
-#' @param A matrix of features with the same number of rows as
+#' @param A numeric matrix of features with the same number of rows as
 #' `cf.predictions`
 #'
-#' 
-#' @references Semenova, V. and Chernozhukov, V., 2021. Debiased machine learning of 
-#' conditional average treatment effects and other causal functions. 
+#'
+#' @references Semenova, V. and Chernozhukov, V., 2021. Debiased machine learning of
+#' conditional average treatment effects and other causal functions.
 #' The Econometrics Journal, 24(2), pp.264-289.
-#' 
+#'
 #' @importFrom stats lm
 #' @importFrom lmtest coeftest
 #' @importFrom sandwich vcovHC
 #' @export cate_blp
 
 cate_blp <- function(cf, A) {
-  if (!inherits(A, "matrix")) {
-      message("A must be a matrix ... attempting to coerce to matrix.")
+  if (!inherits(A, c("numeric", "matrix"))) {
+      message("A must be a numeric matrix ... attempting to coerce to matrix.")
       A <- as.matrix(A)
   }
 
@@ -52,6 +52,7 @@ cate_blp <- function(cf, A) {
 
   # Projection of DR scores onto Feature Mat A.
   blp <- lm(gamma.hat ~ A)
+  
   # HC3-SE t-tests
   res <- coeftest(blp, vcov. = vcovHC(blp, type = "HC3"))
 
