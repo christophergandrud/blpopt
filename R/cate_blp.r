@@ -52,7 +52,7 @@ cate_blp <- function(cf, A) {
 
   # Projection of DR scores onto Feature Mat A.
   blp <- lm(gamma.hat ~ A)
-  
+
   # HC3-SE t-tests
   res <- coeftest(blp, vcov. = vcovHC(blp, type = "HC3"))
 

@@ -16,6 +16,9 @@ extract_trained_model_elements <- function(model){
         m$W.hat <- model$W.hat
         m$tau.hat <- model$predictions
     }
+    else if (inherits(model, "drlearner_blp")) {
+        m <- model
+    }
     else
         stop("No supported trained model object supplied", call. = FALSE)
 
