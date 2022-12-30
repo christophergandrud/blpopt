@@ -8,7 +8,7 @@
 #' @param model a trained model object from a supported model type
 
 extract_trained_model_elements <- function(model){
-    m <- list(Y = NULL, W = NULL, Y.hat= NULL, W.hat= NULL, tau.hat= NULL)
+    m <- list(Y = NULL, W = NULL, Y.hat = NULL, W.hat = NULL, tau.hat = NULL)
     if (inherits(model, "causal_forest")) {
         m$Y <- model$Y.orig
         m$W <- model$W.orig
@@ -17,7 +17,7 @@ extract_trained_model_elements <- function(model){
         m$tau.hat <- model$predictions
     }
     else
-        stop("No supported trained model object supplied", call. = FALSE )
+        stop("No supported trained model object supplied", call. = FALSE)
 
     return(m)
 }
