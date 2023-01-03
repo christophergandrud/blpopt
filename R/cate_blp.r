@@ -3,7 +3,7 @@
 #' vector A using cross-fitted DR/AIPW-scores.
 #'
 #' @param cf *causal_forest* object output from the `causal_forest` function
-#' from the **grf** package.
+#' from the **grf** package or `dr_learner` from the **drlearner** package.
 #' @param A numeric matrix of features with the same number of rows as
 #' `cf.predictions`
 #'
@@ -18,10 +18,7 @@
 #' @export cate_blp
 
 cate_blp <- function(cf, A) {
-  if (!inherits(A, c("numeric", "matrix"))) {
-      message("A must be a numeric matrix ... attempting to coerce to matrix.")
-      A <- as.matrix(A)
-  }
+  if (!inherits(A, c("numeric", "matrix"))) { A <- as.matrix(A) }
 
   m <- extract_trained_model_elements(cf)
 
@@ -36,9 +33,9 @@ cate_blp <- function(cf, A) {
   # estimates of mu_0(X) and mu_1(X) as
 
   # E[Y | X, W = 0]
-  mu.hat.0 <- m$Y.hat - m$W.hat * m$tau.hat
+#  mu.hat.0 <- m$Y.hat - m$W.hat * m$tau.hat
   # E[Y | X, W = 1]
-  mu.hat.1 <- m$Y.hat + (1 - m$W.hat) * m$tau.hat
+#  mu.hat.1 <- m$Y.hat + (1 - m$W.hat) * m$tau.hat
 
   # DML residual
   w.res <- m$W - m$W.hat

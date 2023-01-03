@@ -10,7 +10,7 @@ cate_blp(cf, A)
 }
 \arguments{
 \item{cf}{\emph{causal_forest} object output from the \code{causal_forest} function
-from the \strong{grf} package.}
+from the \strong{grf} package or \code{dr_learner} from the \strong{drlearner} package.}
 
 \item{A}{numeric matrix of features with the same number of rows as
 \code{cf.predictions}}
