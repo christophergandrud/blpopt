@@ -65,4 +65,10 @@ ggplot(predicted, aes(x = A, y = predicted)) +
 conditional average treatment effects and other causal functions. 
 The Econometrics Journal, 24(2), pp.264-289.
 
-- [`grf::best_linear_projection`](https://grf-labs.github.io/grf/reference/best_linear_projection.html) Note: the package in this repo is a starting point for planned extensions.
+- [**drlearner**](https://github.com/christophergandrud/drlearner) computes CATE 
+estimates needed for best linaer projections in the format this package expects
+using the doubly robust learner method from Kennedy (2022)
+
+- [`grf::best_linear_projection`](https://grf-labs.github.io/grf/reference/best_linear_projection.html) gives
+best linear projections from causal forests. This function produces equivalent results for causal forests.
+**blpopt** aims to provide BLPs for a wider range of models, such as doubly robust learners.
