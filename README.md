@@ -57,6 +57,13 @@ ggplot(predicted, aes(x = A, y = predicted)) +
   geom_function(fun = tau_ex,col="red")  + 
   geom_point(size = 1, alpha = 0.4) +
   theme_minimal()
+  
+  
+total_pred <- cate_blp_bootstrap(blp, iterations = 1000)
+
+total_pred$difference_blp <- total_pred$predicted_optimal - total_pred$predicted_totals
+
+median(total_pred$difference_blp)
 ```
 
 ## See also

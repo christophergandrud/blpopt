@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 library(blpopt)
 library(grf)
 library(ggplot2)
+
+theme_set(theme_minimal())
 ```
 
 ## Create simulated data
@@ -69,6 +71,27 @@ In the following plot:
 ggplot(predicted, aes(x = A, y = predicted)) +
   xlim(c(min(predicted$A), max(predicted$A))) +
   geom_function(fun = tau_ex, col = "red") +
-  geom_point(size = 1, alpha = 0.4) +
-  theme_minimal()
+  geom_point(size = 1, alpha = 0.4)
 ```
+
+## Estimate the impact of using approximately optimal targeting to assign treatment
+
+We can get a sense of the value of using approximately optimal targeting
+over no targeting using bootstraped predictions of the incremental effect
+for the treated population:
+
+```{r}
+total_pred <- cate_blp_bootstrap(blp, iterations = 1000)
+
+total_pred$difference_blp <- total_pred$predicted_optimal - total_pred$predicted_totals
+
+median(total_pred$difference_blp)
+```
+
+```{r}
+ggplot(total_pred, aes(difference_blp)) +
+    geom_density(alpha = 0.7) +
+    xlab("\nPredicted Incremental Profit") +
+    ggtitle("Bootstraped Predicted Incremental Profit of using\nApproximately Optimal vs 'Treat All' targeting\nfor a population with characteristics A")
+```
+

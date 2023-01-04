@@ -10,7 +10,6 @@
 #' predicted treatment effect is > `tau.treatment.baseline`.
 #'
 #' @importFrom stats formula predict.lm
-#' @importFrom dplyr bind_rows %>% group_by summarize
 #'
 #' @export
 
@@ -29,7 +28,13 @@ cate_blp_bootstrap <- function(obj,
     original_data <- m$model
     original_nrow <- nrow(original_data)
 
-    out_list <- vector(mode = "list", length = iterations)
+    if (output == "raw.list") {
+        out <- vector(mode = "list", length = iterations)
+    } else {
+        out <- data.frame(matrix(nrow = iterations, ncol = 3))
+        names(out) <- c("sample", "predicted_totals", "predicted_optimal")
+    }
+
 
     show_progress <- function(i_) {
         intervaln <- floor(iterations * 0.1)
@@ -43,22 +48,21 @@ cate_blp_bootstrap <- function(obj,
         samp <- original_data[sample(original_nrow, size = original_nrow, replace = TRUE), ]
         m_samp <- predict.lm(lm(m_formula, data = samp))
 
-        X_samp <- data.frame(samp[, -1])
-        names(X_samp) <- names(samp)[-1]
-        out_list[[i]] <- data.frame(sample = paste0("sample_", i),
-                                    X_samp, predictions = m_samp)
+        if (output == "raw.list") {
+            X_samp <- data.frame(samp[, -1])
+            names(X_samp) <- names(samp)[-1]
+            out[[i]] <- data.frame(sample = paste0("sample_", i),
+                                        X_samp, predictions = m_samp)
+        }
+        else if (output == "totals") {
+            out$sample[i] <- i
+            out$predicted_totals[i] <- sum(m_samp)
+            out$predicted_optimal[i] <- sum(ifelse(m_samp < tau.treatment.baseline,
+                                               0, m_samp))
+        }
     }
-    if (output == "raw.list") {
-        return(out_list)
-    } else if (output == "totals") {
-
-        df <- dplyr::bind_rows(out_list, .id = "sample")
-        df$predicted_optimal <- ifelse(df$prediction < tau.treatment.baseline,
-                                       0,
-                                       df$prediction)
-        out_df <- df %>% group_by(sample) %>%
-            summarize(predicted_totals = sum(predictions),
-                      predicted_blp_optimal_totals = sum(predicted_optimal))
-        return(out_df)
-    }
+    return(out)
 }
+
+
+

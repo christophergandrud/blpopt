@@ -15,7 +15,6 @@ Description: Estimates the best linear projection of the CATE with respect to a
 BugReports: https://github.com/christophergandrud/blpopt/issues
 License: MIT
 Imports:
-    dplyr,
     lmtest,
     sandwich
 Suggests:
