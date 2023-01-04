@@ -2,10 +2,10 @@
 #' effect (CATE-BLP) with respect to a feature
 #' vector A using cross-fitted DR/AIPW-scores.
 #'
-#' @param cf *causal_forest* object output from the `causal_forest` function
-#' from the **grf** package or `dr_learner` from the **drlearner** package.
+#' @param fit fitted model object output from `causal_forest`
+#' in the **grf** package or `dr_learner` from the **drlearner** package.
 #' @param A numeric matrix of features with the same number of rows as
-#' `cf.predictions`
+#' the number of predictions from `fit`.
 #'
 #'
 #' @references Semenova, V. and Chernozhukov, V., 2021. Debiased machine learning of
@@ -17,13 +17,13 @@
 #' @importFrom sandwich vcovHC
 #' @export cate_blp
 
-cate_blp <- function(cf, A) {
+cate_blp <- function(fit, A) {
   if (!inherits(A, c("numeric", "matrix"))) { A <- as.matrix(A) }
 
-  m <- extract_trained_model_elements(cf)
+  m <- extract_trained_model_elements(fit)
 
   stopifnot(
-    "A must have the same number of rows as cf.predictions" =
+    "A must have the same number of rows as fitted predictions" =
       nrow(A) == length(m$tau.hat)
   )
 
@@ -55,9 +55,9 @@ cate_blp <- function(cf, A) {
 
   # Predictions
   preds <- cbind(1, A) %*% res[, 1]
-  plt.df <- data.frame(A, predicted = preds)
+  pred.df <- data.frame(A, predicted = preds)
 
-  out <- list(res = res, predictions = plt.df)
+  out <- list(res = res, predictions = pred.df, fitted_model = blp)
   class(out) <- "cateblp"
 
   return(out)

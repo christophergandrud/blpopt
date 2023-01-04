@@ -6,14 +6,14 @@
 effect (CATE-BLP) with respect to a feature
 vector A using cross-fitted DR/AIPW-scores.}
 \usage{
-cate_blp(cf, A)
+cate_blp(fit, A)
 }
 \arguments{
-\item{cf}{\emph{causal_forest} object output from the \code{causal_forest} function
-from the \strong{grf} package or \code{dr_learner} from the \strong{drlearner} package.}
+\item{fit}{fitted model object output from \code{causal_forest}
+in the \strong{grf} package or \code{dr_learner} from the \strong{drlearner} package.}
 
 \item{A}{numeric matrix of features with the same number of rows as
-\code{cf.predictions}}
+the number of predictions from \code{fit}.}
 }
 \description{
 Estimates the best linear projection of the conditional average treatment
